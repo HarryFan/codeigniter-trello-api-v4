@@ -436,4 +436,50 @@ class Api extends ResourceController
       ], 500);
     }
   }
+
+  /**
+   * 刪除清單
+   * DELETE /lists/{listId}
+   * 
+   * @param int $listId
+   * @return \CodeIgniter\HTTP\Response
+   */
+  public function deleteList($listId)
+  {
+    $this->setCorsHeaders();
+    
+    // 建立模型實例
+    $listModel = new ListModel();
+    $cardModel = new CardModel();
+    
+    // 檢查清單是否存在
+    $list = $listModel->find($listId);
+    if (!$list) {
+      return $this->respond([
+        'status' => 'error',
+        'message' => "清單不存在 (ID: {$listId})"
+      ], 404);
+    }
+    
+    try {
+      // 先刪除該清單下的所有卡片
+      $cardModel->where('list_id', $listId)->delete();
+      
+      // 再刪除清單本身
+      $listModel->delete($listId);
+      
+      return $this->respond([
+        'status' => 'success',
+        'message' => '清單已成功刪除',
+        'data' => [
+          'id' => $listId
+        ]
+      ]);
+    } catch (\Exception $e) {
+      return $this->respond([
+        'status' => 'error',
+        'message' => '刪除清單失敗: ' . $e->getMessage()
+      ], 500);
+    }
+  }
 }

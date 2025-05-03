@@ -13,6 +13,7 @@ $routes->post('boards/(:num)/lists', 'Api::createList/$1');
 $routes->post('boards/(:num)/reset', 'Api::resetBoard/$1');
 $routes->get('lists/(:num)/cards', 'Api::cardsByList/$1');
 $routes->post('lists/(:num)/cards', 'Api::createCard/$1');
+$routes->delete('lists/(:num)', 'Api::deleteList/$1');
 $routes->put('cards/(:num)', 'Api::updateCard/$1');
 $routes->delete('cards/(:num)', 'Api::deleteCard/$1');
 
