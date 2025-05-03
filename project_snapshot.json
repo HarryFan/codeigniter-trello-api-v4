@@ -1,0 +1,992 @@
+{
+  "meta": {
+    "project_name": "codeigniter-trello-api-v4",
+    "scan_timestamp": "2025-05-04T00:23:48.646140"
+  },
+  "controllers": [
+    {
+      "type": "controller",
+      "file": "app/Controllers/Auth.php",
+      "name": "Auth",
+      "extends": "ResourceController",
+      "implements": [],
+      "methods": [
+        {
+          "name": "setCorsHeaders",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "options",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "login",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "register",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "logout",
+          "parameters": [],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\RESTful\\ResourceController",
+        "ResponseTrait",
+        "CodeIgniter\\API\\ResponseTrait"
+      ]
+    },
+    {
+      "type": "controller",
+      "file": "app/Controllers/Boards.php",
+      "name": "Boards",
+      "extends": "ResourceController",
+      "implements": [],
+      "methods": [
+        {
+          "name": "reset",
+          "parameters": [
+            "$id = null"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\RESTful\\ResourceController",
+        "ResponseTrait",
+        "CodeIgniter\\API\\ResponseTrait"
+      ]
+    },
+    {
+      "type": "controller",
+      "file": "app/Controllers/Home.php",
+      "name": "Home",
+      "extends": "BaseController",
+      "implements": [],
+      "methods": [
+        {
+          "name": "index",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "options",
+          "parameters": [],
+          "description": ""
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "type": "controller",
+      "file": "app/Controllers/Notifications.php",
+      "name": "Notifications",
+      "extends": "ResourceController",
+      "implements": [],
+      "methods": [
+        {
+          "name": "setCorsHeaders",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "upcoming",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "settings",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "testEmail",
+          "parameters": [],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\API\\ResponseTrait",
+        "App\\Models\\NotificationModel",
+        "CodeIgniter\\RESTful\\ResourceController",
+        "App\\Models\\CardModel",
+        "ResponseTrait",
+        "App\\Models\\UserModel"
+      ]
+    },
+    {
+      "type": "controller",
+      "file": "app/Controllers/BaseController.php",
+      "name": "in",
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "name": "initController",
+          "parameters": [
+            "RequestInterface $request",
+            "ResponseInterface $response",
+            "LoggerInterface $logger"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\Controller",
+        "CodeIgniter\\HTTP\\IncomingRequest",
+        "Psr\\Log\\LoggerInterface",
+        "CodeIgniter\\HTTP\\ResponseInterface",
+        "CodeIgniter\\HTTP\\CLIRequest",
+        "CodeIgniter\\HTTP\\RequestInterface"
+      ]
+    },
+    {
+      "type": "controller",
+      "file": "app/Controllers/Api.php",
+      "name": "Api",
+      "extends": "ResourceController",
+      "implements": [],
+      "methods": [
+        {
+          "name": "setCorsHeaders",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "options",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "options_wildcard",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "cardsByList",
+          "parameters": [
+            "$listId"
+          ],
+          "description": ""
+        },
+        {
+          "name": "createCard",
+          "parameters": [
+            "$listId"
+          ],
+          "description": ""
+        },
+        {
+          "name": "updateCard",
+          "parameters": [
+            "$cardId"
+          ],
+          "description": ""
+        },
+        {
+          "name": "deleteCard",
+          "parameters": [
+            "$cardId"
+          ],
+          "description": ""
+        },
+        {
+          "name": "listsByBoard",
+          "parameters": [
+            "$boardId"
+          ],
+          "description": ""
+        },
+        {
+          "name": "createList",
+          "parameters": [
+            "$boardId"
+          ],
+          "description": ""
+        },
+        {
+          "name": "boards",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "index",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "resetBoard",
+          "parameters": [
+            "$boardId"
+          ],
+          "description": ""
+        },
+        {
+          "name": "deleteList",
+          "parameters": [
+            "$listId"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\API\\ResponseTrait",
+        "App\\Models\\ListModel",
+        "CodeIgniter\\RESTful\\ResourceController",
+        "App\\Models\\CardModel",
+        "ResponseTrait",
+        "App\\Models\\BoardModel"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "type": "model",
+      "file": "app/Models/CardModel.php",
+      "name": "CardModel",
+      "extends": "Model",
+      "implements": [],
+      "methods": [
+        {
+          "name": "getUpcomingTasks",
+          "parameters": [
+            "$userId",
+            "$minutes"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\Model"
+      ]
+    },
+    {
+      "type": "model",
+      "file": "app/Models/BoardModel.php",
+      "name": "BoardModel",
+      "extends": "Model",
+      "implements": [],
+      "methods": [
+        {
+          "name": "reset",
+          "parameters": [
+            "$boardId"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\Model"
+      ]
+    },
+    {
+      "type": "model",
+      "file": "app/Models/NotificationModel.php",
+      "name": "NotificationModel",
+      "extends": "Model",
+      "implements": [],
+      "methods": [
+        {
+          "name": "updateSettings",
+          "parameters": [
+            "$userId",
+            "$settings"
+          ],
+          "description": ""
+        },
+        {
+          "name": "getUsersForEmailNotification",
+          "parameters": [
+            "$defaultLeadTime = 60"
+          ],
+          "description": ""
+        },
+        {
+          "name": "updateLastEmailSent",
+          "parameters": [
+            "$userId"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\Model"
+      ]
+    },
+    {
+      "type": "model",
+      "file": "app/Models/ListModel.php",
+      "name": "ListModel",
+      "extends": "Model",
+      "implements": [],
+      "methods": [],
+      "dependencies": [
+        "CodeIgniter\\Model"
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "method": "get",
+      "url": "/",
+      "handler": "Home::index"
+    },
+    {
+      "method": "get",
+      "url": "api",
+      "handler": "Api::index"
+    },
+    {
+      "method": "get",
+      "url": "boards/(:num)/lists",
+      "handler": "Api::listsByBoard/$1"
+    },
+    {
+      "method": "post",
+      "url": "boards/(:num)/lists",
+      "handler": "Api::createList/$1"
+    },
+    {
+      "method": "post",
+      "url": "boards/(:num)/reset",
+      "handler": "Api::resetBoard/$1"
+    },
+    {
+      "method": "get",
+      "url": "lists/(:num)/cards",
+      "handler": "Api::cardsByList/$1"
+    },
+    {
+      "method": "post",
+      "url": "lists/(:num)/cards",
+      "handler": "Api::createCard/$1"
+    },
+    {
+      "method": "delete",
+      "url": "lists/(:num)",
+      "handler": "Api::deleteList/$1"
+    },
+    {
+      "method": "put",
+      "url": "cards/(:num)",
+      "handler": "Api::updateCard/$1"
+    },
+    {
+      "method": "delete",
+      "url": "cards/(:num)",
+      "handler": "Api::deleteCard/$1"
+    },
+    {
+      "method": "post",
+      "url": "auth/login",
+      "handler": "Auth::login"
+    },
+    {
+      "method": "post",
+      "url": "auth/register",
+      "handler": "Auth::register"
+    },
+    {
+      "method": "post",
+      "url": "auth/logout",
+      "handler": "Auth::logout"
+    },
+    {
+      "method": "options",
+      "url": "auth/login",
+      "handler": "Auth::options"
+    },
+    {
+      "method": "options",
+      "url": "auth/register",
+      "handler": "Auth::options"
+    },
+    {
+      "method": "options",
+      "url": "auth/logout",
+      "handler": "Auth::options"
+    },
+    {
+      "method": "get",
+      "url": "api/notifications/upcoming",
+      "handler": "Notifications::upcoming"
+    },
+    {
+      "method": "post",
+      "url": "api/notifications/settings",
+      "handler": "Notifications::settings"
+    },
+    {
+      "method": "post",
+      "url": "api/notifications/test-email",
+      "handler": "Notifications::testEmail"
+    },
+    {
+      "method": "options",
+      "url": "api/notifications/(:any)",
+      "handler": "Notifications::setCorsHeaders"
+    },
+    {
+      "method": "options",
+      "url": "api",
+      "handler": "Api::options"
+    },
+    {
+      "method": "options",
+      "url": "api/boards",
+      "handler": "Api::options"
+    },
+    {
+      "method": "options",
+      "url": "boards/(:num)/lists",
+      "handler": "Api::options_wildcard"
+    },
+    {
+      "method": "options",
+      "url": "boards/(:num)/reset",
+      "handler": "Api::options_wildcard"
+    },
+    {
+      "method": "options",
+      "url": "lists/(:num)/cards",
+      "handler": "Api::options_wildcard"
+    },
+    {
+      "method": "options",
+      "url": "cards/(:num)",
+      "handler": "Api::options_wildcard"
+    },
+    {
+      "method": "options",
+      "url": "(:any)",
+      "handler": "Home::options"
+    },
+    {
+      "method": "get",
+      "url": "api/boards",
+      "handler": "Api::boards"
+    }
+  ],
+  "services": [
+    {
+      "type": "service",
+      "file": "app/Services/EmailService.php",
+      "name": "EmailService",
+      "extends": null,
+      "implements": [],
+      "methods": [
+        {
+          "name": "__construct",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "sendTaskDueReminder",
+          "parameters": [
+            "$userEmail",
+            "$taskInfo"
+          ],
+          "description": ""
+        },
+        {
+          "name": "buildTaskDueEmail",
+          "parameters": [
+            "$taskInfo"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\Email\\Email"
+      ]
+    }
+  ],
+  "config": {
+    "Email": {
+      "file": "app/Config/Email.php",
+      "has_database_config": false,
+      "has_email_config": true,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Autoload": {
+      "file": "app/Config/Autoload.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "ContentSecurityPolicy": {
+      "file": "app/Config/ContentSecurityPolicy.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": true
+    },
+    "Paths": {
+      "file": "app/Config/Paths.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": true
+    },
+    "Generators": {
+      "file": "app/Config/Generators.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Logger": {
+      "file": "app/Config/Logger.php",
+      "has_database_config": false,
+      "has_email_config": true,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Filters": {
+      "file": "app/Config/Filters.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Encryption": {
+      "file": "app/Config/Encryption.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "App": {
+      "file": "app/Config/App.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": true
+    },
+    "UserAgents": {
+      "file": "app/Config/UserAgents.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Feature": {
+      "file": "app/Config/Feature.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Kint": {
+      "file": "app/Config/Kint.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Migrations": {
+      "file": "app/Config/Migrations.php",
+      "has_database_config": true,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Services": {
+      "file": "app/Config/Services.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Database": {
+      "file": "app/Config/Database.php",
+      "has_database_config": true,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Cache": {
+      "file": "app/Config/Cache.php",
+      "has_database_config": true,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": true,
+      "has_security_config": false
+    },
+    "Session": {
+      "file": "app/Config/Session.php",
+      "has_database_config": true,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": true,
+      "has_security_config": false
+    },
+    "Cookie": {
+      "file": "app/Config/Cookie.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Toolbar": {
+      "file": "app/Config/Toolbar.php",
+      "has_database_config": true,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": true,
+      "has_security_config": false
+    },
+    "Events": {
+      "file": "app/Config/Events.php",
+      "has_database_config": true,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Mimes": {
+      "file": "app/Config/Mimes.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "DocTypes": {
+      "file": "app/Config/DocTypes.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Constants": {
+      "file": "app/Config/Constants.php",
+      "has_database_config": true,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Routing": {
+      "file": "app/Config/Routing.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Publisher": {
+      "file": "app/Config/Publisher.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": true
+    },
+    "CURLRequest": {
+      "file": "app/Config/CURLRequest.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "View": {
+      "file": "app/Config/View.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Modules": {
+      "file": "app/Config/Modules.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Validation": {
+      "file": "app/Config/Validation.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "ForeignCharacters": {
+      "file": "app/Config/ForeignCharacters.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Optimize": {
+      "file": "app/Config/Optimize.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": true,
+      "has_security_config": false
+    },
+    "Exceptions": {
+      "file": "app/Config/Exceptions.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Security": {
+      "file": "app/Config/Security.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": true
+    },
+    "Honeypot": {
+      "file": "app/Config/Honeypot.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Cors": {
+      "file": "app/Config/Cors.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Format": {
+      "file": "app/Config/Format.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Images": {
+      "file": "app/Config/Images.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "Pager": {
+      "file": "app/Config/Pager.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "testing": {
+      "file": "app/Config/Boot/testing.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "production": {
+      "file": "app/Config/Boot/production.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": false,
+      "has_cache_config": false,
+      "has_security_config": false
+    },
+    "development": {
+      "file": "app/Config/Boot/development.php",
+      "has_database_config": false,
+      "has_email_config": false,
+      "has_app_config": true,
+      "has_cache_config": false,
+      "has_security_config": false
+    }
+  },
+  "dependencies": [
+    "Kint\\Parser\\ConstructablePluginInterface",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Logs",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Routes",
+    "CodeIgniter\\Controller",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Timers",
+    "Psr\\Log\\LogLevel",
+    "CodeIgniter\\Filters\\CSRF",
+    "CodeIgniter\\Database\\Migration",
+    "CodeIgniter\\Format\\JSONFormatter",
+    "CodeIgniter\\Events\\Events",
+    "CodeIgniter\\Debug\\ExceptionHandlerInterface",
+    "CodeIgniter\\RESTful\\ResourceController",
+    "CodeIgniter\\Router\\RouteCollection",
+    "CodeIgniter\\HTTP\\IncomingRequest",
+    "App\\Models\\BoardModel",
+    "CodeIgniter\\Cache\\Handlers\\PredisHandler",
+    "Tests\\Support\\Models\\ExampleModel",
+    "CodeIgniter\\Test\\DatabaseTestTrait",
+    "CodeIgniter\\CLI\\CLI",
+    "App\\Models\\NotificationModel",
+    "CodeIgniter\\Model",
+    "CodeIgniter\\Log\\Handlers\\FileHandler",
+    "CodeIgniter\\Filters\\DebugToolbar",
+    "CodeIgniter\\Cache\\Handlers\\FileHandler",
+    "CodeIgniter\\Filters\\Cors",
+    "CodeIgniter\\Debug\\ExceptionHandler",
+    "CodeIgniter\\HTTP\\RequestInterface",
+    "CodeIgniter\\Config\\BaseService",
+    "CodeIgniter\\Validation\\StrictRules\\FileRules",
+    "CodeIgniter\\Test\\CIUnitTestCase",
+    "CodeIgniter\\Session\\Handlers\\BaseHandler",
+    "Psr\\Log\\LoggerInterface",
+    "CodeIgniter\\Images\\Handlers\\GDHandler",
+    "CodeIgniter\\Exceptions\\FrameworkException",
+    "DatabaseTestTrait",
+    "CodeIgniter\\Config\\Publisher",
+    "ResponseTrait",
+    "CodeIgniter\\Config\\BaseConfig",
+    "CodeIgniter\\CLI\\BaseCommand",
+    "Config\\App",
+    "CodeIgniter\\API\\ResponseTrait",
+    "CodeIgniter\\Database\\Config",
+    "Kint\\Renderer\\Rich\\ValuePluginInterface",
+    "CodeIgniter\\Session\\Handlers\\FileHandler",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Events",
+    "CodeIgniter\\HTTP\\ResponseInterface",
+    "CodeIgniter\\Filters\\FilterInterface",
+    "CodeIgniter\\Cache\\CacheInterface",
+    "CodeIgniter\\Filters\\Honeypot",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Views",
+    "CodeIgniter\\Modules\\Modules",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Database",
+    "CodeIgniter\\Config\\ForeignCharacters",
+    "CodeIgniter\\Validation\\StrictRules\\Rules",
+    "CodeIgniter\\Cache\\Handlers\\WincacheHandler",
+    "CodeIgniter\\Cache\\Handlers\\RedisHandler",
+    "CodeIgniter\\Config\\AutoloadConfig",
+    "DateTimeInterface",
+    "CodeIgniter\\Format\\XMLFormatter",
+    "CodeIgniter\\Validation\\StrictRules\\CreditCardRules",
+    "CodeIgniter\\View\\ViewDecoratorInterface",
+    "App\\Models\\UserModel",
+    "CodeIgniter\\Config\\Routing",
+    "Tests\\Support\\Database\\Seeds\\ExampleSeeder",
+    "CodeIgniter\\Database\\Seeder",
+    "CodeIgniter\\Images\\Handlers\\ImageMagickHandler",
+    "Throwable",
+    "CodeIgniter\\HotReloader\\HotReloader",
+    "App\\Models\\CardModel",
+    "CodeIgniter\\HTTP\\CLIRequest",
+    "CodeIgniter\\HTTP\\Header",
+    "Kint\\Renderer\\Rich\\TabPluginInterface",
+    "CodeIgniter\\Config\\Filters",
+    "CodeIgniter\\Config\\View",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Files",
+    "App\\Models\\ListModel",
+    "CodeIgniter\\Email\\Email",
+    "CodeIgniter\\Cache\\Handlers\\DummyHandler",
+    "CodeIgniter\\Cache\\Handlers\\MemcachedHandler",
+    "CodeIgniter\\Validation\\StrictRules\\FormatRules",
+    "CodeIgniter\\CodeIgniter",
+    "Tests\\Support\\Libraries\\ConfigReader"
+  ],
+  "migrations": [
+    {
+      "type": "migration",
+      "file": "app/Database/Migrations/2025-05-03-200000_CreateNotificationSettings.php",
+      "name": "Migration_2025_05_03_200000_CreateNotificationSettings",
+      "extends": "Migration",
+      "implements": [],
+      "methods": [
+        {
+          "name": "up",
+          "parameters": [],
+          "description": ""
+        },
+        {
+          "name": "down",
+          "parameters": [],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\Database\\Migration"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "type": "command",
+      "file": "app/Commands/AlterDeadlineColumn.php",
+      "name": "AlterDeadlineColumn",
+      "extends": "BaseCommand",
+      "implements": [],
+      "methods": [
+        {
+          "name": "run",
+          "parameters": [
+            "array $params"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\CLI\\CLI",
+        "CodeIgniter\\CLI\\BaseCommand"
+      ]
+    },
+    {
+      "type": "command",
+      "file": "app/Commands/SendNotifications.php",
+      "name": "SendNotifications",
+      "extends": "BaseCommand",
+      "implements": [],
+      "methods": [
+        {
+          "name": "run",
+          "parameters": [
+            "array $params"
+          ],
+          "description": ""
+        }
+      ],
+      "dependencies": [
+        "CodeIgniter\\CLI\\CLI",
+        "CodeIgniter\\CLI\\BaseCommand",
+        "App\\Models\\NotificationModel"
+      ]
+    }
+  ]
+}
