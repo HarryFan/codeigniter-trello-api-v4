@@ -70,11 +70,14 @@ class Api extends ResourceController
       'list_id' => $listId,
       'title' => $data['title'] ?? '',
       'description' => $data['description'] ?? '',
-      'date' => $data['date'] ?? null,
-      'deadline' => $data['deadline'] ?? null,
-      'created_at' => date('Y-m-d H:i:s'),
+      'position' => $data['position'] ?? 0
     ];
-    $cardId = $cardModel->insert($insert, true);
+    
+    if (!$cardModel->insert($insert)) {
+      return $this->fail($cardModel->errors());
+    }
+    
+    $cardId = $cardModel->getInsertID();
     $card = $cardModel->find($cardId);
     return $this->respondCreated($card);
   }
@@ -89,20 +92,24 @@ class Api extends ResourceController
     $cardModel = new CardModel();
     $data = $this->request->getJSON(true);
     $card = $cardModel->find($cardId);
+    
     if (!$card) {
       return $this->failNotFound('卡片不存在');
     }
+    
     $update = [
       'title' => $data['title'] ?? $card['title'],
       'description' => $data['description'] ?? $card['description'],
-      'date' => $data['date'] ?? $card['date'],
-      'deadline' => $data['deadline'] ?? $card['deadline'],
       'list_id' => $data['list_id'] ?? $card['list_id'],
-      'position' => $data['position'] ?? $card['position'],
+      'position' => $data['position'] ?? $card['position']
     ];
-    $cardModel->update($cardId, $update);
+    
+    if (!$cardModel->update($cardId, $update)) {
+      return $this->fail($cardModel->errors());
+    }
+    
     $updated = $cardModel->find($cardId);
-    return $this->respond($updated);
+    return $this->respond(['status' => 'ok', 'data' => $updated]);
   }
 
   /**
@@ -133,9 +140,9 @@ class Api extends ResourceController
     // 範例資料，可串接資料庫替換
     $lists = [
       [
-        'id' => 1, 
-        'boardId' => (int)$boardId, 
-        'name' => '待辦', 
+        'id' => 1,
+        'boardId' => (int)$boardId,
+        'title' => '待辦',
         'order' => 1,
         'cards' => [
           [
@@ -148,7 +155,7 @@ class Api extends ResourceController
           ],
           [
             'id' => '11',
-            'list_id' => '1', 
+            'list_id' => '1',
             'title' => 'VVV',
             'description' => 'DDD',
             'position' => '0',
@@ -165,16 +172,16 @@ class Api extends ResourceController
         ]
       ],
       [
-        'id' => 2, 
-        'boardId' => (int)$boardId, 
-        'name' => '進行中', 
+        'id' => 2,
+        'boardId' => (int)$boardId,
+        'title' => '進行中',
         'order' => 2,
         'cards' => []
       ],
       [
-        'id' => 3, 
-        'boardId' => (int)$boardId, 
-        'name' => '已完成', 
+        'id' => 3,
+        'boardId' => (int)$boardId,
+        'title' => '已完成',
         'order' => 3,
         'cards' => []
       ]
