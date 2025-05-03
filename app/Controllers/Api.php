@@ -132,10 +132,54 @@ class Api extends ResourceController
     $this->setCorsHeaders();
     // 範例資料，可串接資料庫替換
     $lists = [
-      [ 'id' => 1, 'boardId' => (int)$boardId, 'name' => '待辦', 'order' => 1 ],
-      [ 'id' => 2, 'boardId' => (int)$boardId, 'name' => '進行中', 'order' => 2 ],
-      [ 'id' => 3, 'boardId' => (int)$boardId, 'name' => '已完成', 'order' => 3 ],
+      [
+        'id' => 1, 
+        'boardId' => (int)$boardId, 
+        'name' => '待辦', 
+        'order' => 1,
+        'cards' => [
+          [
+            'id' => '10',
+            'list_id' => '1',
+            'title' => '１１１１２',
+            'description' => '２２２２２３３３３',
+            'position' => '0',
+            'listTitle' => '待辦'
+          ],
+          [
+            'id' => '11',
+            'list_id' => '1', 
+            'title' => 'VVV',
+            'description' => 'DDD',
+            'position' => '0',
+            'listTitle' => '待辦'
+          ],
+          [
+            'id' => '12',
+            'list_id' => '1',
+            'title' => 'DDD',
+            'description' => 'ASDSA',
+            'position' => '0',
+            'listTitle' => '待辦'
+          ]
+        ]
+      ],
+      [
+        'id' => 2, 
+        'boardId' => (int)$boardId, 
+        'name' => '進行中', 
+        'order' => 2,
+        'cards' => []
+      ],
+      [
+        'id' => 3, 
+        'boardId' => (int)$boardId, 
+        'name' => '已完成', 
+        'order' => 3,
+        'cards' => []
+      ]
     ];
+
     return $this->response->setJSON([
       'status' => 'ok',
       'data' => $lists
