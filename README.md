@@ -114,7 +114,7 @@ mysql -u <使用者名稱> -p <資料庫名稱> < database.sql
 php spark serve
 ```
 
-預設伺服器會於 http://localhost:8080 啟動。
+預設伺服器會於 http://localhost:8890 啟動。
 
 5. 設定 Web Server（正式環境）
 
@@ -137,7 +137,7 @@ php spark serve
   ```bash
   php spark serve
   ```
-  執行後終端機會停在該畫面，顯示伺服器已啟動（如 http://localhost:8080）。
+  執行後終端機會停在該畫面，顯示伺服器已啟動（如 http://localhost:8890）。
 
 - 正確關閉：
   在同一終端機視窗直接按下 `Ctrl + C`，即可完全結束伺服器並釋放 port。
@@ -147,7 +147,7 @@ php spark serve
   - 若誤用 Ctrl+Z，可用 `fg` 回到前景再 Ctrl+C 結束。
   - 若有殘留進程，可用下列指令查詢並強制結束：
     ```bash
-    lsof -i :8080
+    lsof -i :8890
     kill -9 <PID>
     ```
 
@@ -158,10 +158,10 @@ php spark serve
 
 - `app.baseURL` 請務必設為：
   ```
-  app.baseURL = 'http://localhost:8080/'
+  app.baseURL = 'http://localhost:8890/'
   ```
-- **切勿**將 `baseURL` 設為 `http://localhost:8080/api/`，否則會導致路由、靜態資源、API 路徑錯亂，前端將無法正確連線。
-- 前端請直接呼叫 `http://localhost:8080/api/...` 取得資料，無需更動 baseURL。
+- **切勿**將 `baseURL` 設為 `http://localhost:8890/api/`，否則會導致路由、靜態資源、API 路徑錯亂，前端將無法正確連線。
+- 前端請直接呼叫 `http://localhost:8890/api/...` 取得資料，無需更動 baseURL。
 
 ## Repository Management
 

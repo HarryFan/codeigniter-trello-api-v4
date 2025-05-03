@@ -21,7 +21,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'cors'         => \App\Filters\Cors::class,
+        'cors'         => \App\Filters\CorsFilter::class,
     ];
 
     /**
@@ -31,10 +31,14 @@ class Filters extends BaseConfig
     public array $globals = [
         'before' => [
             'cors',
+            // 'honeypot',
+            // 'csrf',
+            // 'invalidchars',
         ],
         'after' => [
             'toolbar',
-            'cors',
+            // 'honeypot',
+            // 'secureheaders',
         ],
     ];
 

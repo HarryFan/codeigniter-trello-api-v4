@@ -11,10 +11,7 @@ class Auth extends BaseController
 
     public function __construct()
     {
-        // 設定 CORS headers
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization');
-        header('Access-Control-Allow-Methods: POST, OPTIONS');
+        // CORS headers 已經由 CorsFilter 處理
     }
 
     /**
