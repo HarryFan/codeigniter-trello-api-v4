@@ -11,8 +11,10 @@ class CardModel extends Model
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
-    protected $allowedFields = ['list_id', 'title', 'description', 'position', 'deadline'];
-    protected $useTimestamps = false; // 禁用時間戳記功能，避免嘗試插入 created_at 和 updated_at
+    protected $allowedFields = ['list_id', 'title', 'description', 'position', 'deadline', 'created_at', 'updated_at'];
+    protected $useTimestamps = true; // 啟用時間戳記功能，自動管理 created_at 和 updated_at
+    protected $createdField = 'created_at';
+    protected $updatedField = 'updated_at';
     
     protected $validationRules = [
         'list_id' => 'required|numeric',
@@ -26,5 +28,5 @@ class CardModel extends Model
     protected $useSoftDeletes = false;
     
     // 日期欄位
-    protected $dates = ['deadline']; // 只保留 deadline 作為日期欄位
+    protected $dates = ['deadline', 'created_at', 'updated_at']; // 加入 created_at 和 updated_at 作為日期欄位
 }

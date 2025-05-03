@@ -152,8 +152,15 @@ class Api extends ResourceController
     
     // 新增卡片到資料庫
     try {
+      $now = new \DateTime();
+      $data['created_at'] = $now->format('Y-m-d H:i:s'); // 手動設定創建時間
+      $data['updated_at'] = $now->format('Y-m-d H:i:s'); // 手動設定更新時間
+      
       $cardModel->insert($data);
       $cardId = $cardModel->getInsertID();
+      
+      // 獲取完整卡片資訊
+      $newCard = $cardModel->find($cardId);
       
       // 獲取清單標題以供前端使用
       $listTitle = $listExists['title'] ?? '';
@@ -166,6 +173,8 @@ class Api extends ResourceController
         'description' => $data['description'],
         'position'    => $data['position'],
         'deadline'    => $data['deadline'],
+        'created_at'  => $data['created_at'], // 添加创建时间
+        'updated_at'  => $data['updated_at'], // 添加更新时间
         'listTitle'   => $listTitle
       ];
       
