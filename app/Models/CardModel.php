@@ -29,4 +29,27 @@ class CardModel extends Model
     
     // 日期欄位
     protected $dates = ['deadline', 'created_at', 'updated_at']; // 加入 created_at 和 updated_at 作為日期欄位
+    
+    /**
+     * 獲取即將到期的任務
+     *
+     * @param integer $userId 使用者 ID
+     * @param integer $minutes 未來幾分鐘內到期的任務
+     * @return array 任務清單
+     */
+    public function getUpcomingTasks($userId, $minutes)
+    {
+        $now = date('Y-m-d H:i:s');
+        $future = date('Y-m-d H:i:s', strtotime("+{$minutes} minutes"));
+        
+        return $this->db->table('cards c')
+          ->select('c.id, c.title, c.deadline, l.title as list_title, b.id as board_id')
+          ->join('lists l', 'l.id = c.list_id')
+          ->join('boards b', 'b.id = l.board_id')
+          ->where('b.user_id', $userId)
+          ->where('c.deadline >=', $now)
+          ->where('c.deadline <=', $future)
+          ->get()
+          ->getResultArray();
+    }
 }

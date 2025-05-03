@@ -25,6 +25,12 @@ $routes->options('auth/login', 'Auth::options');
 $routes->options('auth/register', 'Auth::options');
 $routes->options('auth/logout', 'Auth::options');
 
+// 通知功能路由
+$routes->get('api/notifications/upcoming', 'Notifications::upcoming');
+$routes->post('api/notifications/settings', 'Notifications::settings');
+$routes->post('api/notifications/test-email', 'Notifications::testEmail');
+$routes->options('api/notifications/(:any)', 'Notifications::setCorsHeaders');
+
 // 全域處理 OPTIONS 請求，讓 CORS filter 正常運作
 $routes->options('api', 'Api::options');
 $routes->options('api/boards', 'Api::options');
