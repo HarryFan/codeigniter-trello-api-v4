@@ -12,12 +12,10 @@ class ListModel extends Model
   protected $useAutoIncrement = true;
   protected $returnType = 'array';
   protected $allowedFields = [
-    'board_id', 'title', 'position'
+    'board_id', 'title', 'position', 'created_at', 'updated_at'
   ];
   
-  protected $useTimestamps = true;
-  protected $createdField = 'created_at';
-  protected $updatedField = 'updated_at';
+  protected $useTimestamps = false;
   protected $dateFormat = 'datetime';
   
   protected $validationRules = [

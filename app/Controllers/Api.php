@@ -204,10 +204,14 @@ class Api extends ResourceController
     $this->setCorsHeaders();
     $listModel = new ListModel();
     $data = $this->request->getJSON(true);
+    
+    $now = date('Y-m-d H:i:s');
     $insert = [
       'board_id' => $boardId,
       'title' => $data['title'] ?? '',
-      'position' => $data['position'] ?? 0
+      'position' => $data['position'] ?? 0,
+      'created_at' => $now,
+      'updated_at' => $now
     ];
     
     if (!$listModel->insert($insert)) {
