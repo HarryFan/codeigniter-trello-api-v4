@@ -19,12 +19,39 @@ class Api extends ResourceController
 {
   use ResponseTrait;
 
+  protected function setCorsHeaders()
+  {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Headers: *');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 7200');
+  }
+
+  /**
+   * 處理 CORS 預檢請求
+   */
+  public function options()
+  {
+    $this->setCorsHeaders();
+    return $this->response->setStatusCode(200);
+  }
+
+  /**
+   * 處理帶參數的 CORS 預檢請求
+   */
+  public function options_wildcard()
+  {
+    $this->setCorsHeaders();
+    return $this->response->setStatusCode(200);
+  }
+
   /**
    * 取得指定清單下所有卡片
    * GET /lists/{listId}/cards
    */
   public function cardsByList($listId)
   {
+    $this->setCorsHeaders();
     $cardModel = new CardModel();
     $cards = $cardModel->where('list_id', $listId)->findAll();
     return $this->respond($cards);
@@ -36,6 +63,7 @@ class Api extends ResourceController
    */
   public function createCard($listId)
   {
+    $this->setCorsHeaders();
     $cardModel = new CardModel();
     $data = $this->request->getJSON(true);
     $insert = [
@@ -57,6 +85,7 @@ class Api extends ResourceController
    */
   public function updateCard($cardId)
   {
+    $this->setCorsHeaders();
     $cardModel = new CardModel();
     $data = $this->request->getJSON(true);
     $card = $cardModel->find($cardId);
@@ -82,6 +111,7 @@ class Api extends ResourceController
    */
   public function deleteCard($cardId)
   {
+    $this->setCorsHeaders();
     $cardModel = new CardModel();
     $card = $cardModel->find($cardId);
     if (!$card) {
@@ -92,14 +122,24 @@ class Api extends ResourceController
   }
 
   /**
-   * 取得指定看板下所有清單
+   * 取得指定看板的所有清單（lists）
    * GET /boards/{boardId}/lists
+   * @param int $boardId
+   * @return \CodeIgniter\HTTP\Response
    */
   public function listsByBoard($boardId)
   {
-    $listModel = new ListModel();
-    $lists = $listModel->where('board_id', $boardId)->findAll();
-    return $this->respond($lists);
+    $this->setCorsHeaders();
+    // 範例資料，可串接資料庫替換
+    $lists = [
+      [ 'id' => 1, 'boardId' => (int)$boardId, 'name' => '待辦', 'order' => 1 ],
+      [ 'id' => 2, 'boardId' => (int)$boardId, 'name' => '進行中', 'order' => 2 ],
+      [ 'id' => 3, 'boardId' => (int)$boardId, 'name' => '已完成', 'order' => 3 ],
+    ];
+    return $this->response->setJSON([
+      'status' => 'ok',
+      'data' => $lists
+    ]);
   }
 
   /**
@@ -108,6 +148,7 @@ class Api extends ResourceController
    */
   public function createList($boardId)
   {
+    $this->setCorsHeaders();
     $listModel = new ListModel();
     $data = $this->request->getJSON(true);
     $insert = [
@@ -121,11 +162,26 @@ class Api extends ResourceController
   }
 
   /**
+   * 取得所有看板資料
+   * @return \CodeIgniter\HTTP\Response
+   */
+  public function boards()
+  {
+    $this->setCorsHeaders();
+    // 範例回傳空陣列，可依需求串接資料庫
+    return $this->response->setJSON([
+      'status' => 'ok',
+      'data' => []
+    ]);
+  }
+
+  /**
    * API 健康檢查
    * GET /api
    */
   public function index()
   {
+    $this->setCorsHeaders();
     return $this->respond(['status' => 'ok', 'message' => 'API service 運作正常']);
   }
 }

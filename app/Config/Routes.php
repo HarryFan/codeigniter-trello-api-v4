@@ -16,4 +16,13 @@ $routes->put('cards/(:num)', 'Api::updateCard/$1');
 $routes->delete('cards/(:num)', 'Api::deleteCard/$1');
 
 // 全域處理 OPTIONS 請求，讓 CORS filter 正常運作
+$routes->options('api', 'Api::options');
+$routes->options('api/boards', 'Api::options');
+$routes->options('boards/(:num)/lists', 'Api::options_wildcard');
+$routes->options('lists/(:num)/cards', 'Api::options_wildcard');
+$routes->options('cards/(:num)', 'Api::options_wildcard');
+
+// 其餘路徑維持 Home::options 作為 fallback
 $routes->options('(:any)', 'Home::options');
+
+$routes->get('api/boards', 'Api::boards');

@@ -24,13 +24,13 @@ class Cors extends BaseConfig
      *      maxAge: int,
      *  }
      */
-  public array $default = [
-'allowedOrigins' => ['*'],
-  'allowedOriginsPatterns' => [],
-  'supportsCredentials'    => false,
-  'allowedHeaders'         => ['*'],
-  'exposedHeaders'         => [],
-  'allowedMethods'         => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  'maxAge'                 => 7200,
-];
+    public array $default = [
+        'allowedOrigins' => ['*'],
+        'allowedOriginsPatterns' => [],
+        'supportsCredentials'    => false,
+        'allowedHeaders'         => ['*'],
+        'exposedHeaders'         => [],
+        'allowedMethods'         => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        'maxAge'                 => 7200,
+    ];
 }
