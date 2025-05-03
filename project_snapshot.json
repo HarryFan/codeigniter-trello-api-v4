@@ -1,7 +1,7 @@
 {
   "meta": {
     "project_name": "codeigniter-trello-api-v4",
-    "scan_timestamp": "2025-05-04T00:23:48.646140"
+    "scan_timestamp": "2025-05-04T00:27:51.730043"
   },
   "controllers": [
     {
@@ -39,8 +39,8 @@
       ],
       "dependencies": [
         "CodeIgniter\\RESTful\\ResourceController",
-        "ResponseTrait",
-        "CodeIgniter\\API\\ResponseTrait"
+        "CodeIgniter\\API\\ResponseTrait",
+        "ResponseTrait"
       ]
     },
     {
@@ -60,8 +60,8 @@
       ],
       "dependencies": [
         "CodeIgniter\\RESTful\\ResourceController",
-        "ResponseTrait",
-        "CodeIgniter\\API\\ResponseTrait"
+        "CodeIgniter\\API\\ResponseTrait",
+        "ResponseTrait"
       ]
     },
     {
@@ -113,12 +113,12 @@
         }
       ],
       "dependencies": [
-        "CodeIgniter\\API\\ResponseTrait",
-        "App\\Models\\NotificationModel",
-        "CodeIgniter\\RESTful\\ResourceController",
-        "App\\Models\\CardModel",
+        "App\\Models\\UserModel",
         "ResponseTrait",
-        "App\\Models\\UserModel"
+        "CodeIgniter\\API\\ResponseTrait",
+        "App\\Models\\CardModel",
+        "App\\Models\\NotificationModel",
+        "CodeIgniter\\RESTful\\ResourceController"
       ]
     },
     {
@@ -139,12 +139,12 @@
         }
       ],
       "dependencies": [
-        "CodeIgniter\\Controller",
-        "CodeIgniter\\HTTP\\IncomingRequest",
-        "Psr\\Log\\LoggerInterface",
-        "CodeIgniter\\HTTP\\ResponseInterface",
         "CodeIgniter\\HTTP\\CLIRequest",
-        "CodeIgniter\\HTTP\\RequestInterface"
+        "CodeIgniter\\HTTP\\ResponseInterface",
+        "Psr\\Log\\LoggerInterface",
+        "CodeIgniter\\HTTP\\RequestInterface",
+        "CodeIgniter\\Controller",
+        "CodeIgniter\\HTTP\\IncomingRequest"
       ]
     },
     {
@@ -237,11 +237,11 @@
         }
       ],
       "dependencies": [
+        "ResponseTrait",
         "CodeIgniter\\API\\ResponseTrait",
         "App\\Models\\ListModel",
-        "CodeIgniter\\RESTful\\ResourceController",
         "App\\Models\\CardModel",
-        "ResponseTrait",
+        "CodeIgniter\\RESTful\\ResourceController",
         "App\\Models\\BoardModel"
       ]
     }
@@ -839,88 +839,88 @@
     }
   },
   "dependencies": [
-    "Kint\\Parser\\ConstructablePluginInterface",
-    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Logs",
-    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Routes",
-    "CodeIgniter\\Controller",
-    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Timers",
-    "Psr\\Log\\LogLevel",
-    "CodeIgniter\\Filters\\CSRF",
-    "CodeIgniter\\Database\\Migration",
-    "CodeIgniter\\Format\\JSONFormatter",
-    "CodeIgniter\\Events\\Events",
-    "CodeIgniter\\Debug\\ExceptionHandlerInterface",
-    "CodeIgniter\\RESTful\\ResourceController",
-    "CodeIgniter\\Router\\RouteCollection",
-    "CodeIgniter\\HTTP\\IncomingRequest",
-    "App\\Models\\BoardModel",
-    "CodeIgniter\\Cache\\Handlers\\PredisHandler",
-    "Tests\\Support\\Models\\ExampleModel",
-    "CodeIgniter\\Test\\DatabaseTestTrait",
-    "CodeIgniter\\CLI\\CLI",
-    "App\\Models\\NotificationModel",
-    "CodeIgniter\\Model",
-    "CodeIgniter\\Log\\Handlers\\FileHandler",
-    "CodeIgniter\\Filters\\DebugToolbar",
-    "CodeIgniter\\Cache\\Handlers\\FileHandler",
-    "CodeIgniter\\Filters\\Cors",
-    "CodeIgniter\\Debug\\ExceptionHandler",
-    "CodeIgniter\\HTTP\\RequestInterface",
-    "CodeIgniter\\Config\\BaseService",
-    "CodeIgniter\\Validation\\StrictRules\\FileRules",
-    "CodeIgniter\\Test\\CIUnitTestCase",
-    "CodeIgniter\\Session\\Handlers\\BaseHandler",
-    "Psr\\Log\\LoggerInterface",
-    "CodeIgniter\\Images\\Handlers\\GDHandler",
-    "CodeIgniter\\Exceptions\\FrameworkException",
-    "DatabaseTestTrait",
-    "CodeIgniter\\Config\\Publisher",
-    "ResponseTrait",
-    "CodeIgniter\\Config\\BaseConfig",
-    "CodeIgniter\\CLI\\BaseCommand",
-    "Config\\App",
-    "CodeIgniter\\API\\ResponseTrait",
-    "CodeIgniter\\Database\\Config",
-    "Kint\\Renderer\\Rich\\ValuePluginInterface",
-    "CodeIgniter\\Session\\Handlers\\FileHandler",
-    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Events",
-    "CodeIgniter\\HTTP\\ResponseInterface",
-    "CodeIgniter\\Filters\\FilterInterface",
-    "CodeIgniter\\Cache\\CacheInterface",
-    "CodeIgniter\\Filters\\Honeypot",
-    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Views",
-    "CodeIgniter\\Modules\\Modules",
-    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Database",
-    "CodeIgniter\\Config\\ForeignCharacters",
-    "CodeIgniter\\Validation\\StrictRules\\Rules",
-    "CodeIgniter\\Cache\\Handlers\\WincacheHandler",
-    "CodeIgniter\\Cache\\Handlers\\RedisHandler",
-    "CodeIgniter\\Config\\AutoloadConfig",
-    "DateTimeInterface",
     "CodeIgniter\\Format\\XMLFormatter",
-    "CodeIgniter\\Validation\\StrictRules\\CreditCardRules",
-    "CodeIgniter\\View\\ViewDecoratorInterface",
-    "App\\Models\\UserModel",
-    "CodeIgniter\\Config\\Routing",
-    "Tests\\Support\\Database\\Seeds\\ExampleSeeder",
-    "CodeIgniter\\Database\\Seeder",
-    "CodeIgniter\\Images\\Handlers\\ImageMagickHandler",
-    "Throwable",
-    "CodeIgniter\\HotReloader\\HotReloader",
-    "App\\Models\\CardModel",
-    "CodeIgniter\\HTTP\\CLIRequest",
-    "CodeIgniter\\HTTP\\Header",
-    "Kint\\Renderer\\Rich\\TabPluginInterface",
-    "CodeIgniter\\Config\\Filters",
-    "CodeIgniter\\Config\\View",
-    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Files",
+    "ResponseTrait",
+    "CodeIgniter\\Session\\Handlers\\BaseHandler",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Database",
+    "Psr\\Log\\LoggerInterface",
     "App\\Models\\ListModel",
-    "CodeIgniter\\Email\\Email",
-    "CodeIgniter\\Cache\\Handlers\\DummyHandler",
+    "Config\\App",
+    "Throwable",
+    "CodeIgniter\\Debug\\ExceptionHandler",
+    "CodeIgniter\\HotReloader\\HotReloader",
+    "CodeIgniter\\HTTP\\RequestInterface",
     "CodeIgniter\\Cache\\Handlers\\MemcachedHandler",
-    "CodeIgniter\\Validation\\StrictRules\\FormatRules",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Routes",
+    "CodeIgniter\\Format\\JSONFormatter",
+    "CodeIgniter\\CLI\\BaseCommand",
+    "CodeIgniter\\HTTP\\IncomingRequest",
+    "CodeIgniter\\Config\\Publisher",
+    "CodeIgniter\\Database\\Config",
+    "App\\Models\\CardModel",
+    "CodeIgniter\\Test\\CIUnitTestCase",
+    "CodeIgniter\\Log\\Handlers\\FileHandler",
+    "DatabaseTestTrait",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Files",
     "CodeIgniter\\CodeIgniter",
-    "Tests\\Support\\Libraries\\ConfigReader"
+    "CodeIgniter\\Images\\Handlers\\ImageMagickHandler",
+    "CodeIgniter\\Config\\BaseConfig",
+    "CodeIgniter\\Filters\\FilterInterface",
+    "CodeIgniter\\Validation\\StrictRules\\FileRules",
+    "Kint\\Parser\\ConstructablePluginInterface",
+    "CodeIgniter\\HTTP\\CLIRequest",
+    "CodeIgniter\\Test\\DatabaseTestTrait",
+    "CodeIgniter\\API\\ResponseTrait",
+    "CodeIgniter\\Filters\\CSRF",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Logs",
+    "CodeIgniter\\Filters\\Cors",
+    "CodeIgniter\\Validation\\StrictRules\\Rules",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Views",
+    "CodeIgniter\\Cache\\Handlers\\RedisHandler",
+    "CodeIgniter\\View\\ViewDecoratorInterface",
+    "CodeIgniter\\Cache\\Handlers\\WincacheHandler",
+    "Tests\\Support\\Models\\ExampleModel",
+    "CodeIgniter\\Database\\Seeder",
+    "App\\Models\\BoardModel",
+    "CodeIgniter\\Validation\\StrictRules\\CreditCardRules",
+    "CodeIgniter\\CLI\\CLI",
+    "CodeIgniter\\Images\\Handlers\\GDHandler",
+    "App\\Models\\UserModel",
+    "CodeIgniter\\Validation\\StrictRules\\FormatRules",
+    "Kint\\Renderer\\Rich\\TabPluginInterface",
+    "CodeIgniter\\Email\\Email",
+    "CodeIgniter\\Router\\RouteCollection",
+    "CodeIgniter\\Exceptions\\FrameworkException",
+    "CodeIgniter\\Config\\View",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Timers",
+    "CodeIgniter\\Cache\\CacheInterface",
+    "CodeIgniter\\Modules\\Modules",
+    "CodeIgniter\\Config\\ForeignCharacters",
+    "CodeIgniter\\Config\\AutoloadConfig",
+    "Tests\\Support\\Libraries\\ConfigReader",
+    "App\\Models\\NotificationModel",
+    "CodeIgniter\\Events\\Events",
+    "CodeIgniter\\Debug\\Toolbar\\Collectors\\Events",
+    "CodeIgniter\\RESTful\\ResourceController",
+    "Kint\\Renderer\\Rich\\ValuePluginInterface",
+    "CodeIgniter\\Config\\BaseService",
+    "CodeIgniter\\Database\\Migration",
+    "CodeIgniter\\Debug\\ExceptionHandlerInterface",
+    "CodeIgniter\\Model",
+    "CodeIgniter\\HTTP\\Header",
+    "Psr\\Log\\LogLevel",
+    "CodeIgniter\\Config\\Filters",
+    "CodeIgniter\\HTTP\\ResponseInterface",
+    "CodeIgniter\\Config\\Routing",
+    "CodeIgniter\\Filters\\DebugToolbar",
+    "DateTimeInterface",
+    "CodeIgniter\\Cache\\Handlers\\DummyHandler",
+    "CodeIgniter\\Session\\Handlers\\FileHandler",
+    "CodeIgniter\\Cache\\Handlers\\PredisHandler",
+    "CodeIgniter\\Filters\\Honeypot",
+    "Tests\\Support\\Database\\Seeds\\ExampleSeeder",
+    "CodeIgniter\\Cache\\Handlers\\FileHandler",
+    "CodeIgniter\\Controller"
   ],
   "migrations": [
     {
@@ -984,8 +984,8 @@
       ],
       "dependencies": [
         "CodeIgniter\\CLI\\CLI",
-        "CodeIgniter\\CLI\\BaseCommand",
-        "App\\Models\\NotificationModel"
+        "App\\Models\\NotificationModel",
+        "CodeIgniter\\CLI\\BaseCommand"
       ]
     }
   ]

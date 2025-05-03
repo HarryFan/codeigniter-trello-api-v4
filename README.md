@@ -249,3 +249,30 @@ php spark serve
 - 錯誤處理採用標準 HTTP 狀態碼
 
 如需詳細設定與使用說明，請參閱 [CodeIgniter 官方文件](https://codeigniter.com/user_guide/)。
+
+## 專案快照工具
+
+本專案附帶一個 Python 腳本 `project_snapshot.py`，用於生成專案結構的 JSON 格式快照。此工具主要用於幫助 AI 快速理解專案結構，避免重複開發功能。
+
+### 使用方式
+
+```bash
+# 在專案根目錄執行
+python3 project_snapshot.py
+```
+
+執行後，將在專案根目錄產生 `project_snapshot.json` 檔案。
+
+### 功能說明
+
+- 自動掃描專案中的控制器、模型、服務等組件
+- 提取類別、方法和依賴關係資訊
+- 分析路由配置和設定文件
+- 生成專為 AI 優化的 JSON 格式結構資訊
+
+### 使用場景
+
+- 導入新開發人員或 AI 協作時，快速了解專案結構
+- 避免功能重複開發
+- 分析類別間依賴關係
+- 提升程式碼重用效率
