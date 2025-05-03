@@ -12,7 +12,7 @@ class ListModel extends Model
   protected $useAutoIncrement = true;
   protected $returnType = 'array';
   protected $allowedFields = [
-    'board_id', 'title', 'position', 'created_at', 'updated_at'
+    'board_id', 'title', 'position'
   ];
   
   protected $useTimestamps = false;
