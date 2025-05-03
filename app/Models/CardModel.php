@@ -29,4 +29,20 @@ class CardModel extends Model
     
     // 日期欄位
     protected $dates = ['created_at', 'updated_at', 'deadline'];
+    
+    public function getUpcomingTasks($userId, $minutes)
+    {
+        $now = date('Y-m-d H:i:s');
+        $future = date('Y-m-d H:i:s', strtotime("+{$minutes} minutes"));
+        
+        return $this->db->table('cards c')
+            ->select('c.id, c.title, c.deadline, l.title as list_title, b.id as board_id')
+            ->join('lists l', 'l.id = c.list_id')
+            ->join('boards b', 'b.id = l.board_id')
+            ->where('b.user_id', $userId)
+            ->where('c.deadline >=', $now)
+            ->where('c.deadline <=', $future)
+            ->get()
+            ->getResultArray();
+    }
 }
