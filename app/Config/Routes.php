@@ -10,6 +10,7 @@ $routes->get('/', 'Home::index');
 $routes->get('api', 'Api::index');
 $routes->get('boards/(:num)/lists', 'Api::listsByBoard/$1');
 $routes->post('boards/(:num)/lists', 'Api::createList/$1');
+$routes->delete('lists/(:num)', 'Api::deleteList/$1');
 $routes->get('lists/(:num)/cards', 'Api::cardsByList/$1');
 $routes->post('lists/(:num)/cards', 'Api::createCard/$1');
 $routes->put('cards/(:num)', 'Api::updateCard/$1');
@@ -19,6 +20,7 @@ $routes->delete('cards/(:num)', 'Api::deleteCard/$1');
 $routes->options('api', 'Api::options');
 $routes->options('api/boards', 'Api::options');
 $routes->options('boards/(:num)/lists', 'Api::options_wildcard');
+$routes->options('lists/(:num)', 'Api::options_wildcard');
 $routes->options('lists/(:num)/cards', 'Api::options_wildcard');
 $routes->options('cards/(:num)', 'Api::options_wildcard');
 

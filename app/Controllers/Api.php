@@ -221,6 +221,22 @@ class Api extends ResourceController
   }
 
   /**
+   * 刪除清單
+   * DELETE /lists/{id}
+   */
+  public function deleteList($id)
+  {
+    $this->setCorsHeaders();
+    $listModel = new ListModel();
+    
+    if (!$listModel->delete($id)) {
+      return $this->fail('刪除清單失敗');
+    }
+    
+    return $this->respondDeleted(['id' => $id]);
+  }
+
+  /**
    * 取得所有看板資料
    * @return \CodeIgniter\HTTP\Response
    */
