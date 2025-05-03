@@ -70,7 +70,8 @@ class Api extends ResourceController
       'list_id' => $listId,
       'title' => $data['title'] ?? '',
       'description' => $data['description'] ?? '',
-      'position' => $data['position'] ?? 0
+      'position' => $data['position'] ?? 0,
+      'deadline' => $data['deadline'] ?? null
     ];
     
     if (!$cardModel->insert($insert)) {
@@ -101,7 +102,8 @@ class Api extends ResourceController
       'title' => $data['title'] ?? $card['title'],
       'description' => $data['description'] ?? $card['description'],
       'list_id' => $data['list_id'] ?? $card['list_id'],
-      'position' => $data['position'] ?? $card['position']
+      'position' => $data['position'] ?? $card['position'],
+      'deadline' => $data['deadline'] ?? $card['deadline']
     ];
     
     if (!$cardModel->update($cardId, $update)) {
