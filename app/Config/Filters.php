@@ -23,7 +23,7 @@ class Filters extends BaseFilters
         'csrf'     => CSRF::class,
         'toolbar'  => DebugToolbar::class,
         'honeypot' => Honeypot::class,
-        'cors'     => Cors::class,
+        'cors'     => \App\Filters\CorsFilter::class,
     ];
 
     /**
@@ -47,7 +47,7 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            'cors' => ['except' => []],
+            'cors',
         ],
         'after' => [
             'toolbar',

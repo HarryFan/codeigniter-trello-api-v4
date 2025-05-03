@@ -15,6 +15,14 @@ $routes->post('lists/(:num)/cards', 'Api::createCard/$1');
 $routes->put('cards/(:num)', 'Api::updateCard/$1');
 $routes->delete('cards/(:num)', 'Api::deleteCard/$1');
 
+// 認證路由
+$routes->post('auth/login', 'Auth::login');
+$routes->post('auth/register', 'Auth::register');
+$routes->post('auth/logout', 'Auth::logout');
+$routes->options('auth/login', 'Auth::options');
+$routes->options('auth/register', 'Auth::options');
+$routes->options('auth/logout', 'Auth::options');
+
 // 全域處理 OPTIONS 請求，讓 CORS filter 正常運作
 $routes->options('api', 'Api::options');
 $routes->options('api/boards', 'Api::options');
