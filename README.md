@@ -182,7 +182,21 @@ CREATE TABLE cards (
 
 ### 通知功能
 - `GET /api/notifications/upcoming` - 取得即將到期的任務
-  - 回傳：即將到期卡片列表
+  - 查詢參數：minutes (可選) - 指定檢查未來多少分鐘內到期的任務，預設值為 30
+  - 回傳：即將到期卡片列表包含標題、截止時間、所屬清單等資訊
+
+- `POST /api/notifications/settings` - 更新通知偏好設定
+  - 請求參數：browser_enabled, email_enabled, polling_interval, email_lead_time
+  - 回傳：更新成功訊息
+
+- `POST /api/notifications/test-email` - 測試電子郵件發送功能
+  - 請求參數：email - 收件者電子郵件地址
+  - 回傳：發送結果狀態
+  
+### 排程任務
+- `php spark notifications:send` - 發送任務到期電子郵件通知
+  - 功能：根據用戶設定的提前提醒時間，發送即將到期任務的電子郵件提醒
+  - 建議：設置為每小時執行一次的排程任務
 
 ## 安裝與設定
 
