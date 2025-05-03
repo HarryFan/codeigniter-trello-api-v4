@@ -21,10 +21,18 @@ class Api extends ResourceController
 
   protected function setCorsHeaders()
   {
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-    header('Access-Control-Max-Age: 7200');
+    // 從請求中獲取來源
+    $origin = $this->request->getHeaderLine('Origin');
+    if (empty($origin)) {
+      $origin = '*';
+    }
+    
+    // 設定 CORS 標頭
+    $this->response->setHeader('Access-Control-Allow-Origin', $origin);
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+    $this->response->setHeader('Access-Control-Max-Age', '86400');
   }
 
   /**
@@ -32,7 +40,19 @@ class Api extends ResourceController
    */
   public function options()
   {
-    $this->setCorsHeaders();
+    // 從請求中獲取來源
+    $origin = $this->request->getHeaderLine('Origin');
+    if (empty($origin)) {
+      $origin = '*';
+    }
+    
+    // 設定 CORS 標頭
+    $this->response->setHeader('Access-Control-Allow-Origin', $origin);
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+    $this->response->setHeader('Access-Control-Max-Age', '86400');
+    
     return $this->response->setStatusCode(200);
   }
 
@@ -41,7 +61,19 @@ class Api extends ResourceController
    */
   public function options_wildcard()
   {
-    $this->setCorsHeaders();
+    // 從請求中獲取來源
+    $origin = $this->request->getHeaderLine('Origin');
+    if (empty($origin)) {
+      $origin = '*';
+    }
+    
+    // 設定 CORS 標頭
+    $this->response->setHeader('Access-Control-Allow-Origin', $origin);
+    $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    $this->response->setHeader('Access-Control-Allow-Credentials', 'true');
+    $this->response->setHeader('Access-Control-Max-Age', '86400');
+    
     return $this->response->setStatusCode(200);
   }
 
@@ -58,29 +90,101 @@ class Api extends ResourceController
   }
 
   /**
-   * 新增卡片
+   * 建立新卡片
    * POST /lists/{listId}/cards
+   * @param int $listId
+   * @return \CodeIgniter\HTTP\Response
    */
   public function createCard($listId)
   {
     $this->setCorsHeaders();
-    $cardModel = new CardModel();
-    $data = $this->request->getJSON(true);
-    $insert = [
-      'list_id' => $listId,
-      'title' => $data['title'] ?? '',
-      'description' => $data['description'] ?? '',
-      'position' => $data['position'] ?? 0,
-      'deadline' => $data['deadline'] ?? null
-    ];
     
-    if (!$cardModel->insert($insert)) {
-      return $this->fail($cardModel->errors());
+    // 獲取請求資料
+    $inputData = $this->request->getJSON(true);
+    
+    // 驗證 listId 是否存在
+    $listModel = new ListModel();
+    $listExists = $listModel->find($listId);
+    
+    if (!$listExists) {
+      return $this->response->setStatusCode(404)->setJSON([
+        'status' => 'error',
+        'message' => "List with ID {$listId} not found."
+      ]);
     }
     
-    $cardId = $cardModel->getInsertID();
-    $card = $cardModel->find($cardId);
-    return $this->respondCreated($card);
+    // 取得目前清單中卡片的最高位置，以確保新卡片位置正確
+    $cardModel = new CardModel();
+    $maxPosition = $cardModel->where('list_id', $listId)
+                           ->selectMax('position')
+                           ->get()
+                           ->getRow();
+    
+    $position = ($maxPosition && isset($maxPosition->position)) ? $maxPosition->position + 1 : 0;
+    
+    // 處理日期格式（接受 date 或 deadline 欄位）
+    $deadline = null;
+    if (isset($inputData['deadline']) && !empty($inputData['deadline'])) {
+      $deadline = $inputData['deadline'];
+      
+      // 處理 ISO 格式的日期時間 (如 2025-05-03T22:22)
+      if (strpos($deadline, 'T') !== false) {
+        $dateObj = new \DateTime($deadline);
+        $deadline = $dateObj->format('Y-m-d H:i:s');
+      }
+    } elseif (isset($inputData['date']) && !empty($inputData['date'])) {
+      $deadline = $inputData['date'];
+      
+      // 處理 ISO 格式的日期時間
+      if (strpos($deadline, 'T') !== false) {
+        $dateObj = new \DateTime($deadline);
+        $deadline = $dateObj->format('Y-m-d H:i:s');
+      }
+    }
+    
+    $data = [
+      'list_id'      => $listId,
+      'title'        => $inputData['title'] ?? '',
+      'description'  => $inputData['description'] ?? '',
+      'position'     => $position,
+      'deadline'     => $deadline
+    ];
+    
+    // 新增卡片到資料庫
+    try {
+      $cardModel->insert($data);
+      $cardId = $cardModel->getInsertID();
+      
+      // 獲取清單標題以供前端使用
+      $listTitle = $listExists['title'] ?? '';
+      
+      // 回傳新建立的卡片資料
+      $card = [
+        'id'          => $cardId,
+        'list_id'     => $listId,
+        'title'       => $data['title'],
+        'description' => $data['description'],
+        'position'    => $data['position'],
+        'deadline'    => $data['deadline'],
+        'listTitle'   => $listTitle
+      ];
+      
+      return $this->response->setJSON([
+        'status' => 'ok',
+        'data'   => $card
+      ]);
+    } catch (\Exception $e) {
+      return $this->response->setStatusCode(500)->setJSON([
+        'status' => 'error',
+        'message' => $e->getMessage(),
+        'debug' => [
+          'listId' => $listId,
+          'listExists' => $listExists ? 'yes' : 'no',
+          'inputData' => $inputData,
+          'cardData' => $data
+        ]
+      ]);
+    }
   }
 
   /**
@@ -98,16 +202,39 @@ class Api extends ResourceController
       return $this->failNotFound('卡片不存在');
     }
     
+    // 記錄原始截止日期格式，用於除錯
+    $originalDeadline = $data['deadline'] ?? null;
+    
+    // 處理截止日期，確保日期時間格式正確保存
+    $deadline = null;
+    if (isset($data['deadline']) && !empty($data['deadline'])) {
+      $deadline = $data['deadline'];
+      
+      // 確保字串格式統一 (如果是 ISO 格式如 2025-05-03T22:22，轉換為 MySQL datetime 格式)
+      if (strpos($deadline, 'T') !== false) {
+        $dateObj = new \DateTime($deadline);
+        $deadline = $dateObj->format('Y-m-d H:i:s');
+      }
+    }
+    
     $update = [
       'title' => $data['title'] ?? $card['title'],
       'description' => $data['description'] ?? $card['description'],
       'list_id' => $data['list_id'] ?? $card['list_id'],
       'position' => $data['position'] ?? $card['position'],
-      'deadline' => $data['deadline'] ?? $card['deadline']
+      'deadline' => $deadline ?? $card['deadline']
     ];
     
     if (!$cardModel->update($cardId, $update)) {
-      return $this->fail($cardModel->errors());
+      return $this->response->setStatusCode(500)->setJSON([
+        'status' => 'error',
+        'message' => '更新卡片失敗',
+        'errors' => $cardModel->errors(),
+        'debug' => [
+          'original_deadline' => $originalDeadline,
+          'processed_deadline' => $deadline
+        ]
+      ]);
     }
     
     $updated = $cardModel->find($cardId);
@@ -139,55 +266,56 @@ class Api extends ResourceController
   public function listsByBoard($boardId)
   {
     $this->setCorsHeaders();
-    // 範例資料，可串接資料庫替換
-    $lists = [
-      [
-        'id' => 1,
-        'boardId' => (int)$boardId,
-        'title' => '待辦',
-        'order' => 1,
-        'cards' => [
-          [
-            'id' => '10',
-            'list_id' => '1',
-            'title' => '１１１１２',
-            'description' => '２２２２２３３３３',
-            'position' => '0',
-            'listTitle' => '待辦'
-          ],
-          [
-            'id' => '11',
-            'list_id' => '1',
-            'title' => 'VVV',
-            'description' => 'DDD',
-            'position' => '0',
-            'listTitle' => '待辦'
-          ],
-          [
-            'id' => '12',
-            'list_id' => '1',
-            'title' => 'DDD',
-            'description' => 'ASDSA',
-            'position' => '0',
-            'listTitle' => '待辦'
-          ]
-        ]
-      ],
-      [
-        'id' => 2,
-        'boardId' => (int)$boardId,
-        'title' => '進行中',
-        'order' => 2,
-        'cards' => []
-      ],
-      [
-        'id' => 3,
-        'boardId' => (int)$boardId,
-        'title' => '已完成',
-        'order' => 3,
-        'cards' => []
-      ]
-    ];
+    
+    // 從資料庫獲取清單和卡片
+    $listModel = new ListModel();
+    $cardModel = new CardModel();
+    
+    // 獲取該看板下的所有清單
+    $lists = $listModel->where('board_id', $boardId)->findAll();
+    
+    // 為每個清單獲取卡片
+    foreach ($lists as &$list) {
+      $cards = $cardModel->where('list_id', $list['id'])->findAll();
+      
+      // 為卡片添加清單標題 (用於前端顯示)
+      foreach ($cards as &$card) {
+        $card['listTitle'] = $list['title'];
+      }
+      
+      $list['cards'] = $cards;
+      
+      // 重命名 board_id 為 boardId（前端使用駝峰式命名）
+      $list['boardId'] = $list['board_id'];
+      $list['order'] = $list['position'];
+    }
+    
+    // 如果沒有找到清單，創建預設清單
+    if (empty($lists)) {
+      // 建立預設清單
+      $defaultLists = [
+        ['board_id' => $boardId, 'title' => '待辦', 'position' => 1],
+        ['board_id' => $boardId, 'title' => '進行中', 'position' => 2],
+        ['board_id' => $boardId, 'title' => '已完成', 'position' => 3]
+      ];
+      
+      foreach ($defaultLists as $listData) {
+        $listModel->insert($listData);
+        $listId = $listModel->getInsertID();
+        
+        $newList = [
+          'id' => $listId,
+          'boardId' => (int)$boardId,
+          'board_id' => (int)$boardId,
+          'title' => $listData['title'],
+          'order' => $listData['position'],
+          'position' => $listData['position'],
+          'cards' => []
+        ];
+        
+        $lists[] = $newList;
+      }
+    }
 
     return $this->response->setJSON([
       'status' => 'ok',

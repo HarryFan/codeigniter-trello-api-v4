@@ -10,7 +10,7 @@ $routes->get('/', 'Home::index');
 $routes->get('api', 'Api::index');
 $routes->get('boards/(:num)/lists', 'Api::listsByBoard/$1');
 $routes->post('boards/(:num)/lists', 'Api::createList/$1');
-$routes->post('boards/(:num)/reset', 'Api::resetBoard/$1'); // 新增重設看板端點
+$routes->post('boards/(:num)/reset', 'Api::resetBoard/$1');
 $routes->get('lists/(:num)/cards', 'Api::cardsByList/$1');
 $routes->post('lists/(:num)/cards', 'Api::createCard/$1');
 $routes->put('cards/(:num)', 'Api::updateCard/$1');
@@ -28,7 +28,7 @@ $routes->options('auth/logout', 'Auth::options');
 $routes->options('api', 'Api::options');
 $routes->options('api/boards', 'Api::options');
 $routes->options('boards/(:num)/lists', 'Api::options_wildcard');
-$routes->options('boards/(:num)/reset', 'Api::options_wildcard'); // 處理重設看板的 OPTIONS 請求
+$routes->options('boards/(:num)/reset', 'Api::options_wildcard');
 $routes->options('lists/(:num)/cards', 'Api::options_wildcard');
 $routes->options('cards/(:num)', 'Api::options_wildcard');
 
