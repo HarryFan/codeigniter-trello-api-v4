@@ -39,6 +39,83 @@ framework are exposed.
 
 **Please** read the user guide for a better explanation of how CI4 works!
 
+## 如何啟動本專案
+
+1. 安裝相依套件
+
+```bash
+composer install
+```
+
+2. 設定環境檔案
+
+將 `env` 檔案複製為 `.env`，並依需求調整（如 baseURL、資料庫設定）：
+
+```bash
+cp env .env
+```
+
+3. 建立資料庫（如有提供 `database.sql` 檔案，請匯入）
+
+```bash
+mysql -u <使用者名稱> -p <資料庫名稱> < database.sql
+```
+
+4. 啟動開發伺服器
+
+```bash
+php spark serve
+```
+
+預設伺服器會於 http://localhost:8080 啟動。
+
+5. 設定 Web Server（正式環境）
+
+請將 Web Server 的根目錄指向 `public` 資料夾。
+
+---
+
+> 本機 MySQL 僅供測試練習用，root 密碼為空字串。
+> 連線指令如下：
+>
+> ```bash
+> mysql -u root
+> ```
+
+如需詳細設定與使用說明，請參閱 [CodeIgniter 官方文件](https://codeigniter.com/user_guide/)。
+
+## 啟動與關閉 CodeIgniter 伺服器
+
+- 啟動：
+  ```bash
+  php spark serve
+  ```
+  執行後終端機會停在該畫面，顯示伺服器已啟動（如 http://localhost:8080）。
+
+- 正確關閉：
+  在同一終端機視窗直接按下 `Ctrl + C`，即可完全結束伺服器並釋放 port。
+
+- 注意事項：
+  - 請勿使用 `Ctrl + Z`（僅暫停進程，port 仍被佔用）。
+  - 若誤用 Ctrl+Z，可用 `fg` 回到前景再 Ctrl+C 結束。
+  - 若有殘留進程，可用下列指令查詢並強制結束：
+    ```bash
+    lsof -i :8080
+    kill -9 <PID>
+    ```
+
+- 重新啟動：
+  先 Ctrl+C 關閉，再重新執行 `php spark serve`。
+
+## 重要設定說明
+
+- `app.baseURL` 請務必設為：
+  ```
+  app.baseURL = 'http://localhost:8080/'
+  ```
+- **切勿**將 `baseURL` 設為 `http://localhost:8080/api/`，否則會導致路由、靜態資源、API 路徑錯亂，前端將無法正確連線。
+- 前端請直接呼叫 `http://localhost:8080/api/...` 取得資料，無需更動 baseURL。
+
 ## Repository Management
 
 We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
