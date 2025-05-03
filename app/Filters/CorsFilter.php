@@ -6,71 +6,71 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
+/**
+ * CORS 過濾器
+ * 
+ * 適用於 Vue.js 前端和 CodeIgniter 後端間的跨域請求
+ * 特別設計用於處理使用憑證的請求
+ */
 class CorsFilter implements FilterInterface
 {
+    /**
+     * 在頁面執行前進行前置處理
+     *
+     * @param RequestInterface $request
+     * @param array|null       $arguments
+     *
+     * @return mixed
+     */
     public function before(RequestInterface $request, $arguments = null)
     {
-        // 取得請求的來源
-        $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
+        // 取得來源網址
+        $origin = $request->getHeaderLine('Origin');
         
-        // 允許常用的前端開發來源
-        $allowedOrigins = [
-            'http://127.0.0.1:5173',
-            'http://127.0.0.1:5174',
-            'http://127.0.0.1:5175',
-            'http://localhost:5173',
-            'http://localhost:5174',
-            'http://localhost:5175'
-        ];
-        
-        // 如果請求來源在允許清單中，則設置對應的標頭
-        if (in_array($origin, $allowedOrigins) || $origin === '*') {
-            header('Access-Control-Allow-Origin: ' . $origin);
-        } else {
-            // 如果不在清單中，預設允許所有來源（開發環境）
-            header('Access-Control-Allow-Origin: *');
+        // 如果 Origin 不存在，設置為允許所有來源
+        if (empty($origin)) {
+            $origin = '*';
         }
         
+        // 預設值
+        header('Access-Control-Allow-Origin: ' . $origin);
         header('Access-Control-Allow-Credentials: true');
-        header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, X-User-Id');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH');
-        header('Access-Control-Max-Age: 86400');  // 24小時
+        header('Access-Control-Allow-Headers: Origin, X-API-KEY, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Request-Method, Access-Control-Allow-Headers');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
         
-        // 處理 OPTIONS 預檢請求
-        if ($request->getMethod() === 'OPTIONS') {
-            header('HTTP/1.1 200 OK');
-            exit();
+        // OPTIONS 請求處理
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == 'OPTIONS') {
+            header('Access-Control-Max-Age: 86400'); // 快取 24 小時
+            exit(0);
         }
     }
 
+    /**
+     * 在頁面執行後進行後置處理
+     *
+     * @param RequestInterface  $request
+     * @param ResponseInterface $response
+     * @param array|null        $arguments
+     *
+     * @return mixed
+     */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        // 取得請求的來源
-        $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
+        // 取得來源網址
+        $origin = $request->getHeaderLine('Origin');
         
-        // 允許常用的前端開發來源
-        $allowedOrigins = [
-            'http://127.0.0.1:5173',
-            'http://127.0.0.1:5174',
-            'http://127.0.0.1:5175',
-            'http://localhost:5173',
-            'http://localhost:5174',
-            'http://localhost:5175'
-        ];
-        
-        // 如果請求來源在允許清單中，則設置對應的標頭
-        if (in_array($origin, $allowedOrigins) || $origin === '*') {
-            $response->setHeader('Access-Control-Allow-Origin', $origin);
-        } else {
-            // 如果不在清單中，預設允許所有來源（開發環境）
-            $response->setHeader('Access-Control-Allow-Origin', '*');
+        // 如果 Origin 不存在，設置為允許所有來源
+        if (empty($origin)) {
+            $origin = '*';
         }
         
-        $response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-User-Id')
-                ->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
-                ->setHeader('Access-Control-Allow-Credentials', 'true')
-                ->setHeader('Access-Control-Max-Age', '86400');  // 24小時
-
+        // 設定 CORS 標頭
+        $response->setHeader('Access-Control-Allow-Origin', $origin);
+        $response->setHeader('Access-Control-Allow-Credentials', 'true');
+        $response->setHeader('Access-Control-Allow-Headers', 'Origin, X-API-KEY, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Request-Method');
+        $response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+        
         return $response;
     }
 }

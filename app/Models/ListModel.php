@@ -15,8 +15,7 @@ class ListModel extends Model
     'board_id', 'title', 'position'
   ];
   
-  protected $useTimestamps = false;
-  protected $dateFormat = 'datetime';
+  protected $useTimestamps = false; // 禁用時間戳記功能，避免嘗試插入 created_at 和 updated_at
   
   protected $validationRules = [
     'board_id' => 'required|numeric',
