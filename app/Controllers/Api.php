@@ -242,4 +242,61 @@ class Api extends ResourceController
     $this->setCorsHeaders();
     return $this->respond(['status' => 'ok', 'message' => 'API service 運作正常']);
   }
+
+  /**
+   * 重設看板（清除所有清單和卡片，重新設置預設清單）
+   * POST /boards/{boardId}/reset
+   * @param int $boardId
+   * @return \CodeIgniter\HTTP\Response
+   */
+  public function resetBoard($boardId)
+  {
+    $this->setCorsHeaders();
+    
+    // 建立模型實例
+    $listModel = new ListModel();
+    $cardModel = new CardModel();
+    
+    try {
+      // 先刪除該看板下所有清單相關的卡片
+      $lists = $listModel->where('board_id', $boardId)->findAll();
+      foreach ($lists as $list) {
+        $cardModel->where('list_id', $list['id'])->delete();
+      }
+      
+      // 再刪除所有清單
+      $listModel->where('board_id', $boardId)->delete();
+      
+      // 建立預設清單
+      $defaultLists = [
+        ['board_id' => $boardId, 'title' => '待辦', 'position' => 1],
+        ['board_id' => $boardId, 'title' => '進行中', 'position' => 2],
+        ['board_id' => $boardId, 'title' => '已完成', 'position' => 3]
+      ];
+      
+      foreach ($defaultLists as $listData) {
+        $listModel->insert($listData);
+      }
+      
+      // 獲取新建立的清單
+      $newLists = $listModel->where('board_id', $boardId)->findAll();
+      
+      // 為新的清單添加空的卡片陣列
+      foreach ($newLists as &$list) {
+        $list['cards'] = [];
+      }
+      
+      return $this->respond([
+        'status' => 'success',
+        'message' => '看板已重設',
+        'data' => $newLists
+      ]);
+      
+    } catch (\Exception $e) {
+      return $this->respond([
+        'status' => 'error',
+        'message' => '重設看板失敗: ' . $e->getMessage()
+      ], 500);
+    }
+  }
 }
