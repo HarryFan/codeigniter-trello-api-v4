@@ -24,6 +24,9 @@ class CardModel extends Model
         'deadline' => 'permit_empty|valid_date'
     ];
     
-    protected $dateFormat = 'Y-m-d';
+    protected $dateFormat = 'datetime';
     protected $useSoftDeletes = false;
+    
+    // 日期欄位
+    protected $dates = ['created_at', 'updated_at', 'deadline'];
 }
