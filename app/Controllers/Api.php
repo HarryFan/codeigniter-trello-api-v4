@@ -207,9 +207,14 @@ class Api extends ResourceController
     $insert = [
       'board_id' => $boardId,
       'title' => $data['title'] ?? '',
-      'created_at' => date('Y-m-d H:i:s'),
+      'position' => $data['position'] ?? 0
     ];
-    $listId = $listModel->insert($insert, true);
+    
+    if (!$listModel->insert($insert)) {
+      return $this->fail($listModel->errors());
+    }
+    
+    $listId = $listModel->getInsertID();
     $list = $listModel->find($listId);
     return $this->respondCreated($list);
   }
