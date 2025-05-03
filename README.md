@@ -1,45 +1,92 @@
-# CodeIgniter 4 Application Starter
+# CodeIgniter 4 Trello Clone API
 
-## What is CodeIgniter?
+## 專案說明
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+這是一個使用 CodeIgniter 4 開發的 Trello Clone API 專案，提供看板、清單、卡片的 CRUD 操作，以及用戶認證和通知功能。
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## 資料庫結構
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### users 表
+```sql
+CREATE TABLE users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### boards 表
+```sql
+CREATE TABLE boards (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  user_id INT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+```
 
-## Installation & updates
+### lists 表
+```sql
+CREATE TABLE lists (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  board_id INT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  position INT NOT NULL DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (board_id) REFERENCES boards(id)
+);
+```
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+### cards 表
+```sql
+CREATE TABLE cards (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  list_id INT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  position INT NOT NULL DEFAULT 0,
+  deadline DATETIME,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (list_id) REFERENCES lists(id)
+);
+```
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## API 端點說明
 
-## Setup
+### 用戶認證
+- `POST /auth/login` - 用戶登入
+- `POST /auth/register` - 用戶註冊
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### 看板管理
+- `GET /boards` - 取得所有看板
+- `POST /boards` - 建立新看板
+- `GET /boards/{id}` - 取得特定看板
+- `PUT /boards/{id}` - 更新看板
+- `DELETE /boards/{id}` - 刪除看板
 
-## Important Change with index.php
+### 清單管理
+- `GET /boards/{boardId}/lists` - 取得看板的所有清單
+- `POST /boards/{boardId}/lists` - 在看板中建立新清單
+- `PUT /lists/{id}` - 更新清單
+- `DELETE /lists/{id}` - 刪除清單
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### 卡片管理
+- `GET /lists/{listId}/cards` - 取得清單的所有卡片
+- `POST /lists/{listId}/cards` - 在清單中建立新卡片
+- `PUT /cards/{id}` - 更新卡片
+- `DELETE /cards/{id}` - 刪除卡片
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### 通知功能
+- `GET /api/notifications/upcoming` - 取得即將到期的任務
 
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## 如何啟動本專案
+## 安裝與設定
 
 1. 安裝相依套件
 
