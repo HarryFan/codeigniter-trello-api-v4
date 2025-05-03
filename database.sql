@@ -68,26 +68,26 @@ CREATE TABLE `notification_settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 預設用戶資料
-INSERT INTO `users` (`name`, `email`, `password`) VALUES 
+INSERT INTO `users` (`name`, `email`, `password`) VALUES
 ('范綱栓', 'harry750110@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); -- password: 12345678
 
 -- 預設看板
-INSERT INTO `boards` (`title`, `user_id`) VALUES 
+INSERT INTO `boards` (`title`, `user_id`) VALUES
 ('我的任務清單', 1);
 
 -- 預設清單
-INSERT INTO `lists` (`board_id`, `title`, `position`) VALUES 
+INSERT INTO `lists` (`board_id`, `title`, `position`) VALUES
 (1, '待處理', 0),
 (1, '進行中', 1),
 (1, '已完成', 2);
 
 -- 預設卡片
-INSERT INTO `cards` (`list_id`, `title`, `description`, `deadline`, `position`) VALUES 
+INSERT INTO `cards` (`list_id`, `title`, `description`, `deadline`, `position`) VALUES
 (1, '研究 Vue 3 新功能', '了解 Composition API 和 Script Setup 的使用方式', '2025-05-10 23:59:59', 0),
 (1, '學習 CodeIgniter 4', '熟悉 RESTful API 開發和資料庫操作', '2025-05-15 23:59:59', 1),
 (2, '開發任務清單功能', '實作拖曳排序和狀態更新', '2025-05-20 23:59:59', 0),
 (3, '完成用戶認證', '實作登入和權限控制', '2025-05-01 23:59:59', 0);
 
 -- 預設通知設定
-INSERT INTO `notification_settings` (`user_id`, `browser_enabled`, `email_enabled`, `email_lead_time`, `browser_lead_time`) VALUES 
+INSERT INTO `notification_settings` (`user_id`, `browser_enabled`, `email_enabled`, `email_lead_time`, `browser_lead_time`) VALUES
 (1, 1, 1, 60, 30);
