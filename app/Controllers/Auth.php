@@ -58,12 +58,22 @@ class Auth extends ResourceController
     // 簡單的測試帳號驗證
     if (
       ($data['email'] === 'harry750110@gmail.com' && $data['password'] === '12345678') ||
-      ($data['email'] === 'test@example.com' && $data['password'] === 'password')
+      ($data['email'] === 'test@example.com' && $data['password'] === 'password') ||
+      ($data['email'] === 'a110911534@gmail.com' && $data['password'] === '12345678')
     ) {
+      // 根據登入帳號設定對應的使用者名稱
+      $userName = 'Harry'; // 預設名稱
+      
+      if ($data['email'] === 'a110911534@gmail.com') {
+        $userName = '鄭奕';
+      } elseif ($data['email'] === 'test@example.com') {
+        $userName = 'Test User';
+      }
+      
       $user = [
         'id' => 1,
         'email' => $data['email'],
-        'name' => 'Harry',
+        'name' => $userName,
         'token' => 'test_token_' . md5(time()),
       ];
       
